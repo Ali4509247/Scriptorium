@@ -21,6 +21,7 @@ const LandingPage = () => {
     const router = useRouter();
     const [theme, setTheme] = useState("light");
     useEffect(() => {
+        if (typeof window !== 'undefined') {
         const token = localStorage.getItem("refreshToken");
 
         if (token) {
@@ -31,12 +32,15 @@ const LandingPage = () => {
         if (savedTheme) {
             setTheme(savedTheme);
         }
+    }
     }, [router]);
 
     const toggleTheme = () => {
         const newTheme = theme === "light" ? "dark" : "light";
         setTheme(newTheme);
+        if (typeof window !== 'undefined') {
         localStorage.setItem("theme", newTheme);
+        }
     };
 
     return (

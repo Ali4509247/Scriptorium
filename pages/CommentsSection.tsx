@@ -17,11 +17,11 @@ export default function CommentsSection({ blogId }: CommentsSectionProps) {
   const [theme, setTheme] = useState("light");
 
   useEffect(() => {
-      const savedTheme = localStorage.getItem("theme");
+      const savedTheme = `${typeof window !== 'undefined' ? localStorage.getItem('theme') : ''}`
       if (savedTheme) {
           setTheme(savedTheme);
       }
-  }, [localStorage.getItem("theme")]);
+  }, [`${typeof window !== 'undefined' ? localStorage.getItem('theme') : ''}`]);
 
 
   // Fetch comments when the component mounts
@@ -71,7 +71,7 @@ export default function CommentsSection({ blogId }: CommentsSectionProps) {
         method: "POST",
         headers: { 
           "Content-Type": "application/json", 
-          'Authorization': `${localStorage.getItem("refreshToken")}`
+          'Authorization': `${typeof window !== 'undefined' ? localStorage.getItem('refreshToken') : ''}`
         },
         body: JSON.stringify({ voteType }),
       });

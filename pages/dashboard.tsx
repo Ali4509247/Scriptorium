@@ -17,7 +17,7 @@ const Dashboard: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        const savedTheme = localStorage.getItem("theme");
+        const savedTheme = `${typeof window !== 'undefined' ? localStorage.getItem('theme') : ''}`
         if (savedTheme) {
             setTheme(savedTheme);
         }
@@ -26,11 +26,15 @@ const Dashboard: React.FC = () => {
     const toggleTheme = () => {
         const newTheme = theme === "light" ? "dark" : "light";
         setTheme(newTheme);
+        if (typeof window !== 'undefined') {
         localStorage.setItem("theme", newTheme);
+        }
     };
 
     const handleLogout = () => {
+        if (typeof window !== 'undefined') {
         localStorage.removeItem("refreshToken");
+        }
         setUser(null);
         router.push("/");
     };

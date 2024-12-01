@@ -8,6 +8,7 @@ const SignupPage = () => {
     const [theme, setTheme] = useState("light");
 
     useEffect(() => {
+    if (typeof window !== 'undefined') {
         const token = localStorage.getItem("refreshToken");
 
         if (token) {
@@ -17,6 +18,7 @@ const SignupPage = () => {
         if (savedTheme) {
             setTheme(savedTheme);
         }
+    }
     }, [router]);
 
     const [formData, setFormData] = useState({

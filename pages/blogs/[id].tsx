@@ -37,7 +37,7 @@ export default function BlogDetailPage() {
   const [error, setError] = useState(null);       // State for error handling
 
   useEffect(() => {
-      const savedTheme = localStorage.getItem("theme");
+      const savedTheme = `${typeof window !== 'undefined' ? localStorage.getItem('theme') : ''}`;
       if (savedTheme) {
           setTheme(savedTheme);
       }
@@ -46,7 +46,9 @@ export default function BlogDetailPage() {
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
+    if (typeof window !== 'undefined') {
     localStorage.setItem('theme', newTheme);
+    }
   };
 
   useEffect(() => {
@@ -109,7 +111,7 @@ export default function BlogDetailPage() {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json', 
-          'Authorization': `${localStorage.getItem("refreshToken")}`
+          'Authorization': `${typeof window !== 'undefined' ? localStorage.getItem('refreshToken') : ''}`
         },
         body: JSON.stringify({ voteType }),
       });
@@ -140,7 +142,7 @@ export default function BlogDetailPage() {
       const headers = new Headers();
       headers.set('Content-Type', 'application/json');
 
-      const refreshToken = localStorage.getItem("refreshToken");
+      const refreshToken = `${typeof window !== 'undefined' ? localStorage.getItem('refreshToken') : ''}`;
       if (refreshToken) {
         headers.set('authorization', refreshToken);
       }

@@ -24,7 +24,7 @@ export default function BlogPage() {
   const router = useRouter();
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
+    const savedTheme = `${typeof window !== 'undefined' ? localStorage.getItem('theme') : ''}`;
     if (savedTheme) {
       setTheme(savedTheme);
     }
@@ -35,7 +35,9 @@ export default function BlogPage() {
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
+    if (typeof window !== 'undefined') {
     localStorage.setItem("theme", newTheme);
+    }
   };
 
   const fetchBlogs = async () => {

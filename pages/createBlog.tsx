@@ -15,8 +15,8 @@ const CreateBlogPage = () => {
     const router = useRouter();
 
     useEffect(() => {
-        const token = localStorage.getItem("refreshToken");
-        const savedTheme = localStorage.getItem("theme");
+        const token = `${typeof window !== 'undefined' ? localStorage.getItem('refreshToken') : ''}`
+        const savedTheme = `${typeof window !== 'undefined' ? localStorage.getItem('theme') : ''}`
         if (savedTheme) {
             setTheme(savedTheme);
         }
@@ -25,7 +25,9 @@ const CreateBlogPage = () => {
     const toggleTheme = () => {
         const newTheme = theme === "light" ? "dark" : "light";
         setTheme(newTheme);
+        if (typeof window !== 'undefined') {
         localStorage.setItem("theme", newTheme);
+        }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -44,7 +46,7 @@ const CreateBlogPage = () => {
             const headers = new Headers();
             headers.set('Content-Type', 'application/json');
 
-            const refreshToken = localStorage.getItem("refreshToken");
+            const refreshToken = `${typeof window !== 'undefined' ? localStorage.getItem('refreshToken') : ''}`
             if (refreshToken) {
                 headers.set('authorization', refreshToken);
             }

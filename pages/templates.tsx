@@ -21,18 +21,22 @@ export default function TemplatePage() {
 
   const router = useRouter();
   useEffect(() => {
+    if (typeof window !== 'undefined') {
       const token = localStorage.getItem("refreshToken");
 
       const savedTheme = localStorage.getItem("theme");
       if (savedTheme) {
           setTheme(savedTheme);
       }
+    }
   }, [router]);
 
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem("theme", newTheme);
+    }
   };
 
   // Fetch templates with applied filters

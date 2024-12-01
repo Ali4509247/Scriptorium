@@ -125,7 +125,7 @@ export default function Code() {
       getTemplate();
     }
 
-    const savedTheme = localStorage.getItem("theme");
+    const savedTheme = `${typeof window !== 'undefined' ? localStorage.getItem('theme') : ''}`;
     if (savedTheme) {
       setTheme(savedTheme);
     }
@@ -198,7 +198,7 @@ export default function Code() {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `${localStorage.getItem("refreshToken")}`
+            'Authorization': `${typeof window !== 'undefined' ? localStorage.getItem('refreshToken') : ''}`
           },
           body: JSON.stringify({
             tags: tags || '',
@@ -211,7 +211,7 @@ export default function Code() {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `${localStorage.getItem("refreshToken")}`
+            'Authorization': `${typeof window !== 'undefined' ? localStorage.getItem('refreshToken') : ''}`
           },
           body: JSON.stringify({
             title,
@@ -244,7 +244,7 @@ export default function Code() {
       const response = await fetch(`/api/codeTemplates/${id}`, {
         method: 'DELETE',
         headers: {
-          'Authorization': `${localStorage.getItem("refreshToken")}`
+          'Authorization': `${typeof window !== 'undefined' ? localStorage.getItem('refreshToken') : ''}`
         }
       });
   
@@ -265,7 +265,9 @@ export default function Code() {
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
+    if (typeof window !== 'undefined') {
     localStorage.setItem("theme", newTheme);
+    }
   };
 
   return (

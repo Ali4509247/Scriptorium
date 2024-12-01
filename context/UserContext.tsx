@@ -22,7 +22,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
     const getUserData = async (): Promise<void> => {
         try {
-            const token = localStorage.getItem("refreshToken");
+            const token = `${typeof window !== 'undefined' ? localStorage.getItem('refreshToken') : ''}`;
             if (!token) {
                 console.error("No token found");
             }

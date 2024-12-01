@@ -12,6 +12,7 @@ const LoginPage = () => {
   const router = useRouter();
 
   useEffect(() => {
+    if (typeof window !== 'undefined') {
     const token = localStorage.getItem("refreshToken");
 
     if (token) {
@@ -22,6 +23,7 @@ const LoginPage = () => {
     if (savedTheme) {
         setTheme(savedTheme);
     }
+  }
   }, [router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -43,9 +45,9 @@ const LoginPage = () => {
 
       const data = await response.json();
       const refreshToken = data.refreshToken;
-
+      if (typeof window !== 'undefined') {
       localStorage.setItem("refreshToken", refreshToken);
-
+      }
       router.push("/dashboard");
     } catch (error) {
       setError("Invalid email or password. Please try again.");

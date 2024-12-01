@@ -59,17 +59,21 @@ const Profile = () => {
     ];
 
     useEffect(() => {
+        if (typeof window !== 'undefined') {
         const token = localStorage.getItem("refreshToken");
         const savedTheme = localStorage.getItem("theme");
         if (savedTheme) {
             setTheme(savedTheme);
         }
+    }
     }, [router]);
 
     const toggleTheme = () => {
         const newTheme = theme === "light" ? "dark" : "light";
         setTheme(newTheme);
+        if (typeof window !== 'undefined') {
         localStorage.setItem("theme", newTheme);
+        }
     };
 
     // Fetch templates
@@ -147,11 +151,14 @@ const Profile = () => {
         };
 
         try {
+            if (typeof window !== 'undefined') {
+
+            }
             const response = await fetch("/api/user/edit", {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
-                    authorization: localStorage.getItem("refreshToken") || "",
+                    authorization: `${typeof window !== 'undefined' ? localStorage.getItem('refreshToken') : ''}`
                 },
                 body: JSON.stringify(updatedUserData),
             });
