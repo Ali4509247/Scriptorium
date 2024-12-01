@@ -7,8 +7,8 @@ interface Comment {
     id: number;
     content: string;
     blogId: number;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

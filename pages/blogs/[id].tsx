@@ -137,13 +137,16 @@ export default function BlogDetailPage() {
     if (!blog || !abuseReason) return;
 
     try {
+      const headers = new Headers();
+      headers.set('Content-Type', 'application/json');
+
+      const refreshToken = localStorage.getItem("refreshToken");
+      if (refreshToken) {
+        headers.set('authorization', refreshToken);
+      }
       const response = await fetch(`/api/blog/${blog.id}/abuse`, {
         method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json', 
-          ...(localStorage.getItem("refreshToken") && { "authorization": localStorage.getItem("refreshToken") })
-        },
-        
+        headers,
         body: JSON.stringify({ reason: abuseReason }),
       });
 
