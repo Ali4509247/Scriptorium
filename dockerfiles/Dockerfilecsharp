@@ -1,0 +1,31 @@
+# Csharp
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS csharp
+
+# Set global working directory for all stages
+WORKDIR /usr/src/app
+
+RUN apt-get update && apt-get install -y mono-complete
+
+RUN echo '#!/bin/bash\n\
+CLASS_NAME=$(grep -oP "class\\s+\\K\\w+" /usr/src/app/code.txt | head -n 1)\n\
+\n\
+if [ -z "$CLASS_NAME" ]; then\n\
+  echo "No class found in code.txt!"\n\
+  exit 1\n\
+fi\n\
+\n\
+mv /usr/src/app/code.txt /usr/src/app/$CLASS_NAME.cs\n\
+\n\
+mcs /usr/src/app/$CLASS_NAME.cs\n\
+\n\
+if [ $? -eq 0 ]; then\n\
+    mono /usr/src/app/$CLASS_NAME.exe < input.txt\n\
+else\n\
+    echo "Compilation failed"\n\
+    exit 1\n\
+fi' > /usr/src/app/execute.sh
+
+RUN chmod +x /usr/src/app/execute.sh
+
+# Set up the default script to execute
+CMD ["/usr/src/app/execute.sh"]

@@ -1,0 +1,36 @@
+# Java
+FROM openjdk:11-jdk-slim AS java
+
+# Set global working directory for all stages
+WORKDIR /usr/src/app
+
+RUN echo "#!/bin/bash\n\
+\n\
+# Extract class name from code.txt\n\
+CLASS_NAME=\$(grep -oP \"public\\s+class\\s+\\K\\w+\" /usr/src/app/code.txt)\n\
+\n\
+# Check if class name was found\n\
+if [ -z \"\$CLASS_NAME\" ]; then\n\
+  echo \"No public class found in code.txt\"\n\
+  exit 1\n\
+fi\n\
+\n\
+# Rename code.txt to match the class name (e.g., ClassName.java)\n\
+mv /usr/src/app/code.txt /usr/src/app/\$CLASS_NAME.java\n\
+\n\
+# Compile the Java code with javac\n\
+javac /usr/src/app/\$CLASS_NAME.java\n\
+\n\
+# Check if compilation was successful\n\
+if [ \$? -eq 0 ]; then\n\
+    # Run the compiled Java program\n\
+    java -cp /usr/src/app \$CLASS_NAME < input.txt\n\
+else\n\
+    echo \"Compilation failed\"\n\
+    exit 1\n\
+fi" > /usr/src/app/execute.sh
+
+RUN chmod +x /usr/src/app/execute.sh
+
+# Set up the default script to execute
+CMD ["/usr/src/app/execute.sh"]

@@ -1,0 +1,14 @@
+# Go
+FROM golang:1.18 AS go
+
+# Set global working directory for all stages
+WORKDIR /usr/src/app
+
+RUN echo '#!/bin/bash\n\
+mv /usr/src/app/code.txt /usr/src/app/code.go\n\
+go run /usr/src/app/code.go < /usr/src/app/input.txt' > /usr/src/app/execute.sh
+
+RUN chmod +x /usr/src/app/execute.sh
+
+# Set up the default script to execute
+CMD ["/usr/src/app/execute.sh"]

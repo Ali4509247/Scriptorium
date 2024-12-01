@@ -1,0 +1,14 @@
+# TypeScript
+FROM node:23-slim AS typescript
+
+# Set global working directory for all stages
+WORKDIR /usr/src/app
+
+RUN echo '#!/bin/bash\n\
+mv /usr/src/app/code.txt /usr/src/app/code.ts\n\
+node /usr/src/app/code.ts < input.txt' > /usr/src/app/execute.sh
+
+RUN chmod +x /usr/src/app/execute.sh
+
+# Set up the default script to execute
+CMD ["/usr/src/app/execute.sh"]

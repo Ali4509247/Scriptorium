@@ -1,0 +1,23 @@
+# C
+FROM gcc:latest AS c
+
+# Set global working directory for all stages
+WORKDIR /usr/src/app
+
+RUN echo '#!/bin/bash\n\
+mv /usr/src/app/code.txt /usr/src/app/code.c\n\
+gcc -o /usr/src/app/output /usr/src/app/code.c\n\
+\n\
+# Check if compilation was successful\n\
+if [ $? -eq 0 ]; then\n\
+    # Run the compiled C program\n\
+    /usr/src/app/output < input.txt\n\
+else\n\
+    echo "Compilation failed"\n\
+    exit 1\n\
+fi' > /usr/src/app/execute.sh
+
+RUN chmod +x /usr/src/app/execute.sh
+
+# Set up the default script to execute
+CMD ["/usr/src/app/execute.sh"]

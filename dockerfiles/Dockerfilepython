@@ -1,0 +1,14 @@
+# Python
+FROM python:3.9-slim AS python
+
+# Set global working directory for all stages
+WORKDIR /usr/src/app
+
+RUN echo '#!/bin/bash\n\
+mv /usr/src/app/code.txt /usr/src/app/code.py\n\
+python3 /usr/src/app/code.py < /usr/src/app/input.txt' > /usr/src/app/execute.sh
+
+RUN chmod +x /usr/src/app/execute.sh
+
+# Set up the default script to execute
+CMD ["/usr/src/app/execute.sh"]

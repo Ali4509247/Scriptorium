@@ -1,0 +1,14 @@
+# Javascript
+FROM node:23-slim AS node
+
+# Set global working directory for all stages
+WORKDIR /usr/src/app
+
+RUN echo '#!/bin/bash\n\
+mv /usr/src/app/code.txt /usr/src/app/code.js\n\
+node /usr/src/app/code.js < input.txt' > /usr/src/app/execute.sh
+
+RUN chmod +x /usr/src/app/execute.sh
+
+# Set up the default script to execute
+CMD ["/usr/src/app/execute.sh"]

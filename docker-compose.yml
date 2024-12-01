@@ -1,0 +1,60 @@
+services:
+  python:
+    build:
+      context: .
+      dockerfile: dockerfiles/Dockerfilepython
+    image: myimage:python
+
+  java:
+    build:
+      context: .
+      dockerfile: dockerfiles/Dockerfilejava
+    image: myimage:java
+
+  javascript:
+    build:
+      context: .
+      dockerfile: dockerfiles/Dockerfilejs
+    image: myimage:javascript
+
+  typescript:
+    build:
+      context: .
+      dockerfile: dockerfiles/Dockerfilets
+    image: myimage:typescript
+
+  c:
+    build:
+      context: .
+      dockerfile: dockerfiles/Dockerfilec
+    image: myimage:c
+
+  cpp:
+    build:
+      context: .
+      dockerfile: dockerfiles/Dockerfilecpp
+    image: myimage:cpp
+
+  csharp:
+    build:
+      context: .
+      dockerfile: dockerfiles/Dockerfilecsharp
+    image: myimage:csharp
+
+  rust:
+    build:
+      context: .
+      dockerfile: dockerfiles/Dockerfilerust
+    image: myimage:rust
+
+  php:
+    build:
+      context: .
+      dockerfile: dockerfiles/Dockerfilephp
+    image: myimage:php
+
+  go:
+    build:
+      context: .
+      dockerfile: dockerfiles/Dockerfilego
+    image: myimage:go

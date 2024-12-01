@@ -1,0 +1,17 @@
+# Rust
+FROM rust:1.67 AS rust
+
+# Set global working directory for all stages
+WORKDIR /usr/src/app
+
+RUN echo '#!/bin/bash\n\
+# Rename code.txt to main.rs (or any other entry point name for Rust)\n\
+mv /usr/src/app/code.txt /usr/src/app/main.rs\n\
+\n\
+# Build the Rust code\n\
+rustc main.rs && ./main < input.txt' > /usr/src/app/execute.sh
+
+RUN chmod +x /usr/src/app/execute.sh
+
+# Set up the default script to execute
+CMD ["/usr/src/app/execute.sh"]
